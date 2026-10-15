@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # NEXT_PUBLIC_* values are inlined into the Next.js bundle by design and are
+  # safe to expose (the Supabase anon key is protected by RLS). Server-only
+  # secrets (SUPABASE_SERVICE_ROLE_KEY, JWT_SECRET, CRON_SECRET) are still scanned.
+  SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY"
