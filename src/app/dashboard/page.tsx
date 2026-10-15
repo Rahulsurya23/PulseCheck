@@ -3,9 +3,11 @@
 import {
   Activity,
   ArrowUpRight,
+  Bell,
   Check,
   CircleAlert,
   Clock3,
+  Globe2,
   LogOut,
   Plus,
   RefreshCw,
@@ -101,7 +103,7 @@ export default function Dashboard() {
               Welcome back, {user?.name || user?.email || "there"}.
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/[0.1] bg-white/[0.03] px-4 text-sm font-medium text-slate-300 transition hover:border-white/[0.16] hover:bg-white/[0.06] hover:text-white disabled:opacity-50"
               disabled={refreshing}
@@ -122,6 +124,26 @@ export default function Dashboard() {
               <LogOut size={16} />
               <span className="hidden sm:inline">Sign out</span>
             </button>
+            <Link
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/[0.1] bg-white/[0.03] px-4 text-sm font-medium text-slate-300 transition hover:border-white/[0.16] hover:bg-white/[0.06] hover:text-white"
+              href="/dashboard/alerts"
+            >
+              <Bell size={15} />
+              Alerts
+            </Link>
+            <Link
+              className="inline-flex h-11 items-center justify-center rounded-xl border border-white/[0.1] bg-white/[0.03] px-4 text-sm font-medium text-slate-300 transition hover:border-white/[0.16] hover:bg-white/[0.06] hover:text-white"
+              href="/dashboard/incidents"
+            >
+              Incidents
+            </Link>
+            <Link
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/[0.1] bg-white/[0.03] px-4 text-sm font-medium text-slate-300 transition hover:border-white/[0.16] hover:bg-white/[0.06] hover:text-white"
+              href="/dashboard/status-pages"
+            >
+              <Globe2 size={15} />
+              Status pages
+            </Link>
             <button
               className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-cyan-300 px-4 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200"
               onClick={() => setShowAddModal(true)}

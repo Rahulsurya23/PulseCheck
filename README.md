@@ -51,12 +51,43 @@ npm run dev
 Before registering, run `supabase/migrations/001_create_users.sql` in the
 Supabase Dashboard's SQL Editor to create the application users table.
 
+## Incident timeline
+
+Run the Supabase SQL migrations in order from the Supabase Dashboard's SQL
+Editor: `001_create_users.sql`, `002_create_monitoring_tables.sql`,
+`003_create_incidents.sql`, then `004_create_status_pages.sql`. The monitoring
+migration creates endpoints, health checks, and alert configurations; the
+incidents migration creates incidents and timeline updates; the status-page
+migration creates public status pages and their selected monitor links. Sign
+in and open `/dashboard/incidents` to review incidents and post updates. Active
+incidents can advance from investigating to identified, monitoring, and
+resolved.
+
+## Alerts
+
+Open `/dashboard/alerts` to add email or HTTPS webhook alert targets to an
+endpoint, pause or reactivate them, and delete configurations. Webhook alerts
+are sent when a health check detects a down endpoint. Email alerts are currently
+logged by the server and are not delivered; configure an email provider before
+relying on email notifications.
+
 ## Dashboard
 
 Create an account or sign in at `/` to open the dashboard. Add an endpoint to
 track its health, uptime, and response time; select a monitor to view its check
 history and response-time chart. The dashboard refreshes monitor data every 30
 seconds.
+
+## Public status pages
+
+Open `/dashboard/status-pages` to create a public status page, choose which
+monitors to display, and copy its shareable `/status/<slug>` URL. The public
+page shows current health, 90-day uptime, daily uptime history, and recent
+incident dates; it refreshes automatically every minute. Public pages disclose
+the selected monitor names and URLs (without URL credentials, query strings, or
+fragments), status summaries, and incident dates, but do not expose monitor
+credentials or internal health-check error details.
+Apply all four Supabase migrations before creating status pages.
 
 ## Health check cron
 
