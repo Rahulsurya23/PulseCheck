@@ -14,6 +14,34 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+async function postAuthRequest(
+  path: string,
+  payload: Record<string, string>,
+  failureMessage: string
+) {
+  let response: Response;
+  try {
+    response = await fetch(path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+  } catch (error) {
+    if (error instanceof TypeError) {
+      throw new Error(
+        "Cannot reach the PulseCheck server. Start it with `npm run dev` and try again."
+      );
+    }
+    throw error;
+  }
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.error || failureMessage);
+  }
+  return data;
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
@@ -30,16 +58,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    if (!res.ok) {
-      const data = await res.json();
-      throw new Error(data.error || "Login failed");
-    }
-    const data = await res.json();
+    const data = await postAuthRequest(
+      "/api/auth/login",
+      { email, password },
+      "Login failed"
+    );
     setUser(data.user);
     setToken(data.token);
     localStorage.setItem("pulsecheck_token", data.token);
@@ -47,16 +70,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const register = async (email: string, password: string, name: string) => {
-    const res = await fetch("/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password, name }),
-    });
-    if (!res.ok) {
-      const data = await res.json();
-      throw new Error(data.error || "Registration failed");
-    }
-    const data = await res.json();
+    const data = await postAuthRequest(
+      "/api/auth/register",
+      { email, password, name },
+      "Registration failed"
+    );
     setUser(data.user);
     setToken(data.token);
     localStorage.setItem("pulsecheck_token", data.token);

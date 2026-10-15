@@ -35,3 +35,39 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 # PulseCheck
+
+## Supabase configuration
+
+Account creation and API routes require a valid `SUPABASE_SERVICE_ROLE_KEY`.
+Replace the placeholder in `.env.local` with the service-role key from your
+Supabase project's API settings. Do not use the dashboard URL or anon key for
+this value, and do not expose the service-role key to client-side code. Restart
+the development server after changing environment variables:
+
+```sh
+npm run dev
+```
+
+Before registering, run `supabase/migrations/001_create_users.sql` in the
+Supabase Dashboard's SQL Editor to create the application users table.
+
+## Dashboard
+
+Create an account or sign in at `/` to open the dashboard. Add an endpoint to
+track its health, uptime, and response time; select a monitor to view its check
+history and response-time chart. The dashboard refreshes monitor data every 30
+seconds.
+
+## Health check cron
+
+The `/api/cron/health-check` route checks every active endpoint and records
+health checks and incident changes. Vercel runs it every minute using the
+schedule in `vercel.json`.
+
+Set `CRON_SECRET` in the local environment and in the Vercel project settings.
+Requests must include it as a bearer token:
+
+```sh
+curl http://localhost:3000/api/cron/health-check \
+  -H "Authorization: Bearer $CRON_SECRET"
+```

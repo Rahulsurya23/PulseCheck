@@ -14,8 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PulseCheck",
-  description: "API Reliability & Monitoring Platform",
+  title: {
+    default: "PulseCheck — API Monitoring",
+    template: "%s | PulseCheck",
+  },
+  description: "Monitor API health, uptime, and response times with PulseCheck.",
 };
 
 export default function RootLayout({

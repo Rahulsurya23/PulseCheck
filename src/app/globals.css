@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
+  --background: #070b12;
+  --foreground: #e2e8f0;
 }
 
 @theme inline {
@@ -22,5 +23,49 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  background-image:
+    radial-gradient(ellipse at 50% -20%, rgba(34, 211, 238, 0.07), transparent 45%),
+    linear-gradient(180deg, #080d16 0%, #070b12 52%, #080d16 100%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background: rgba(103, 232, 249, 0.25);
+  color: #f8fafc;
+}
+
+.field {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.035);
+  padding: 0.75rem 0.875rem;
+  color: #f1f5f9;
+  font-size: 0.875rem;
+  outline: none;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    background-color 150ms ease;
+}
+
+.field::placeholder {
+  color: #64748b;
+}
+
+.field:focus {
+  border-color: rgba(103, 232, 249, 0.55);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.08);
+}
+
+.field:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+select.field option {
+  background: #0b1220;
+  color: #e2e8f0;
 }
